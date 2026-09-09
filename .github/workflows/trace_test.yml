@@ -1,0 +1,55 @@
+name: Trace Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 2. 拉取你自己的代码仓库（包含 src 文件夹）
+    - name: Checkout your repository
+      uses: actions/checkout@v4
+
+    # 3. 克隆测试框架仓库到指定目录
+    - name: Clone test framework
+      uses: actions/checkout@v4
+      run: |
+        git clone https://gitee.com/hitsz-cslab/cdp-tests.git
+
+    # 4. 复制 src 目录到测试框架目录
+    - name: Copy source files to test framework
+      run: |
+        rm cdp-tests/mySoC/*
+        cp src/* cdp-tests/mySoC/
+
+    # 5. 安装编译依赖（根据实际情况调整）
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y verilator make g++
+
+    # 6. 执行 make 编译
+    - name: Build with make
+      run: |
+        cd cdp-tests
+        make
+
+    # 7. 运行 Python 测试脚本
+    - name: Run test script
+      run: |
+        python3 run_all_tests.py
+
+    # 8. 上传测试结果和日志（即使测试失败也上传，方便调试）
+    - name: Upload test artifacts
+      if: always()  # 确保无论测试成功或失败都执行此步骤
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: |
+          cdp-tests/log/
+          cdp-tests/waveform/
