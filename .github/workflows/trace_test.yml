@@ -17,7 +17,7 @@ jobs:
         sudo apt-get install -y verilator make g++
 
     - name: Checkout your repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Build your source files
       run: |
@@ -34,7 +34,7 @@ jobs:
 
     - name: Export Waveforms
       if: always()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: waveform.zip
         path: |
