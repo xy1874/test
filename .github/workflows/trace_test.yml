@@ -11,6 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y verilator make g++
+
     - name: Checkout your repository
       uses: actions/checkout@v4
 
@@ -18,18 +23,10 @@ jobs:
       run: |
         git clone https://gitee.com/hitsz-cslab/cdp-tests.git
 
-    - name: Copy source files to cdp-tests/mySoC/
+    - name: Copy source files & Build with make
       run: |
         rm cdp-tests/mySoC/*
         cp src/* cdp-tests/mySoC/
-
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y verilator make g++
-
-    - name: Build with make
-      run: |
         cd cdp-tests
         make
 
