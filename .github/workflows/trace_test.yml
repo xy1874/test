@@ -30,12 +30,13 @@ jobs:
     - name: Run run_all_tests.py
       run: |
         cd cdp-tests
-        python3 run_all_tests.py
+        python3 run_all_tests.py > test.log
 
     - name: Export Waveforms
       if: always()
       uses: actions/upload-artifact@v6
       with:
-        name: waveform.zip
+        name: test_log.zip
         path: |
+          cdp-tests/test.log
           cdp-tests/waveform/
