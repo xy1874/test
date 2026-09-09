@@ -17,7 +17,6 @@ jobs:
 
     # 3. 克隆测试框架仓库到指定目录
     - name: Clone test framework
-      uses: actions/checkout@v4
       run: |
         git clone https://gitee.com/hitsz-cslab/cdp-tests.git
 
