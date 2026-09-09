@@ -19,12 +19,9 @@ jobs:
     - name: Checkout your repository
       uses: actions/checkout@v4
 
-    - name: Clone cdp-tests.git
+    - name: Build your source files
       run: |
         git clone https://gitee.com/hitsz-cslab/cdp-tests.git
-
-    - name: Copy source files & Build with make
-      run: |
         rm cdp-tests/mySoC/*
         cp src/* cdp-tests/mySoC/
         cd cdp-tests
@@ -39,6 +36,6 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: test-results
+        name: waveform.zip
         path: |
           cdp-tests/waveform/
