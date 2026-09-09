@@ -41,6 +41,7 @@ jobs:
     # 7. 运行 Python 测试脚本
     - name: Run test script
       run: |
+        cd cdp-tests
         python3 run_all_tests.py
 
     # 8. 上传测试结果和日志（即使测试失败也上传，方便调试）
